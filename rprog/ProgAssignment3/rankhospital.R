@@ -26,22 +26,22 @@ rankhospital <- function(state, outcome, num) {
   cols = c(11, 17, 23)
   names(cols) = outcomes
   col = cols[outcome] # col for that outcome
-  data = data[data[, 7] == state, ] # filter by that state
+  statedata = data[data[, 7] == state, ] # filter by that state
     
-  data[, col] <- as.numeric(data[, col]) # convert death rate to numeric for proper sorting
+  statedata[, col] <- as.numeric(statedata[, col]) # convert death rate to numeric for proper sorting
   if (num == 'worst') {
-    data = data[order(-data[, col], data[, 2]), ] # sort by death rate (descending) and hospital name
+    statedata = statedata[order(-statedata[, col], statedata[, 2]), ] # sort by death rate (descending) and hospital name
   } else {
-    data = data[order(data[, col], data[, 2]), ] # sort by death rate (ascending) and hospital name    
+    statedata = statedata[order(statedata[, col], statedata[, 2]), ] # sort by death rate (ascending) and hospital name    
   }
   
   if (num %in% c('worst', 'best')) {
-    data[1, 2] # return name of hospital with the worst/best rank
+    statedata[1, 2] # return name of hospital with the worst/best rank
   } else {
-    if (num > nrow(data)) {
+    if (num > nrow(statedata)) {
       return(NA) # return NA if given rank is invalid
     } else {
-      data[num, 2] # return name of hospital with the given rank      
+      statedata[num, 2] # return name of hospital with the given rank      
     }
   }
 }
